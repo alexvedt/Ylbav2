@@ -1,7 +1,7 @@
 export default function LoginPage() {
   return (
     <>
-      <p className="bg-red-300">Hellllloooo home</p>
+      <div className=" bg-green-400 w-full h-40 flex"></div>
     </>
   );
 }
