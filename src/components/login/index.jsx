@@ -61,7 +61,8 @@ export default function SpotifyLoginComponent() {
     const authUrl = new URL("https://accounts.spotify.com/authorize");
     authUrl.searchParams.set("response_type", "token");
     authUrl.searchParams.set("client_id", "f4570679c86e4c72b36ff45883c77f14");
-    authUrl.searchParams.set("redirect_uri", "http://localhost:5173/");
+    authUrl.searchParams.set("redirect_uri", "https://samplesnatch.xyz/");
+
     authUrl.searchParams.set("scope", "user-read-private user-read-email");
     // REMOVE THIS IN PRODUCTION
     authUrl.searchParams.set("show_dialog", "true");
