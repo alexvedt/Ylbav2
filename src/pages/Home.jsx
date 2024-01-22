@@ -1,12 +1,17 @@
 import SpotifyLoginComponent from "../components/login";
-import RandTrack from "../components/randomTrack";
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import Modal from "../components/modal";
+
 export default function Home() {
   return (
     <>
-      <SpotifyLoginComponent />
-      <Navbar />
-          <RandTrack />
+      <header></header>
+      <main>
+        <Modal />
+        <Navbar />
+        <Footer />
+      </main>
     </>
-      );
-  }
+  );
+}
