@@ -2,6 +2,7 @@ import { Router, Route, RootRoute } from "@tanstack/react-router";
 import LoginPage from "./pages/Login.jsx";
 import HomePage from "./pages/Home.jsx";
 import ProfilePage from "./pages/Profile";
+import SampleFinder from "./pages/SampleFinder.jsx";
 
 import Root from "./App";
 
@@ -29,6 +30,12 @@ const loginRoute = new Route({
   component: LoginPage,
 });
 
+const sampleFinderRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/samplefinder",
+  component: SampleFinder,
+});
+
 // const profileRoute = new Route({
 //   getParentRoute: () => rootRoute,
 //   path: "/profiles/$profileId",
@@ -46,6 +53,7 @@ const routeTree = rootRoute.addChildren([
   loginRoute,
   myProfileRoute,
   homeRoute,
+  sampleFinderRoute,
 ]);
 
 export const router = new Router({ routeTree });

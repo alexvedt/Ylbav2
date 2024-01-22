@@ -90,7 +90,7 @@ const LinkLine = ({ mouseY, isHovered, title }) => {
       <a href="#">
         <motion.div
           ref={ref}
-          className="group relative bg-neutral-500 transition-colors hover:bg-indigo-300"
+          className="group relative bg-green-200 transition-colors hover:bg-green-500"
           style={{ width: linkWidth, height: 2 }}
         >
           <AnimatePresence>
@@ -99,7 +99,7 @@ const LinkLine = ({ mouseY, isHovered, title }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute left-0 top-0 z-10 w-full pt-2 font-bold uppercase text-neutral-900 transition-colors group-hover:text-indigo-300"
+                className="absolute left-0 top-0 z-10 w-full pt-2 font-bold uppercase text-green-200 transition-colors group-hover:text-green-500"
               >
                 {title}
               </motion.span>
@@ -112,7 +112,7 @@ const LinkLine = ({ mouseY, isHovered, title }) => {
     return (
       <motion.div
         ref={ref}
-        className="relative bg-neutral-500"
+        className="relative bg-green-100"
         style={{ width: lineWidth, height: 2 }}
       />
     );
