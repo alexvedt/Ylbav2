@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-
 // console.log(process?.env.REACT_APP_VITE_CALLBACK_URL);
 
 const genres = [
@@ -66,6 +65,7 @@ export default function SpotifyLoginComponent() {
     authUrl.searchParams.set("scope", "user-read-private user-read-email");
     // REMOVE THIS IN PRODUCTION
     authUrl.searchParams.set("show_dialog", "true");
+    localStorage.setItem("accesstoken", accessToken);
 
     try {
       window.location.replace(authUrl);
@@ -83,7 +83,7 @@ export default function SpotifyLoginComponent() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 flex justify-center ">
       <button
         onClick={handleLogin}
         id="js-login-btn"

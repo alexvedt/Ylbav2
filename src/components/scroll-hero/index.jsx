@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { useRef } from "react";
 import PropTypes from "prop-types";
+import ButtonWrapper from "../btn";
 
 const OppoScroll = ({ items }) => {
   const targetRef = useRef(null);
@@ -48,6 +49,9 @@ const Content = ({ content }) => {
             }`}
           >
             <h3 className="text-3xl font-medium">{title}</h3>
+            <div className="text-center">
+              <ButtonWrapper />
+            </div>
             <p className="font-light w-full max-w-md">{description}</p>
           </div>
         ))}
