@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
+import { Link } from "@tanstack/react-router";
+import "../randomTrack/style.css";
 
 const genres = [
   "alternative",
@@ -77,15 +79,13 @@ const SpotifyLoginComponent = () => {
   const spotifyApi = new SpotifyWebApi();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(
-      window.location.hash.replace("#", ""),
-    );
-    const token = urlParams.get("access_token");
+    const token = localStorage.getItem("accesstoken");
 
     if (token) {
       setAccessToken(token);
       spotifyApi.setAccessToken(token);
     }
+    handlePopularityChange({ target: { value: "12" } });
   }, []);
 
   const handleGenreChange = (event) => {
@@ -146,6 +146,11 @@ const SpotifyLoginComponent = () => {
         setPopInput("100");
         reformedPopInput = 100;
         break;
+      case "11":
+        setPopInput("null");
+        reformedPopInput = 100;
+        break;
+      case "12":
       default:
         setPopInput("100");
         break;
@@ -160,7 +165,7 @@ const SpotifyLoginComponent = () => {
     try {
       const data = await spotifyApi.getRecommendations({
         seed_genres: selectedGenre,
-        market: selectedMarket,
+        market: "US",
         // release_date_precision: "2020",
         max_popularity: popInput,
         limit: 1,
@@ -191,95 +196,95 @@ const SpotifyLoginComponent = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <>
-        <form onSubmit={fetchRandomTrack}>
-          <label className="" htmlFor="genres">
-            Choose genre
-            <select
-              name="genres"
-              id="genres"
-              className="px-2 text-black"
-              onChange={handleGenreChange}
-              value={selectedGenre}
-            >
-              <option value="">Select Genre</option>
-              {genres.map((genre) => (
-                <option key={genre} value={genre}>
-                  {genre}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="decades" className="">
-            Select country
-            <select
-              name="decades"
-              id="decades"
-              className="px-2 text-black"
-              onChange={handleMarketChange}
-              value={selectedMarket}
-            >
-              <option value="">Anywhere</option>
-              {markets.map((market) => (
-                <option key={market} value={market}>
-                  {market}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="popularity">Popularity:{popInput}</label>
-          <input
-            id="popularity"
-            name="popularity"
-            type="range"
-            min="1"
-            max="10"
-            onChange={handlePopularityChange}
-          />
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded-lg ml-2 mt-2"
+    <>
+      <div className="grid grid-cols-2 h-screen ">
+        <div className="container mx-auto px-6 py-12 bg-black">
+          <Link to="/">Back</Link>
+          <h2 className=" text-5xl">Sample Finder</h2>
+          <hr className="p-3 mt-5" />
+          <form
+            className="flex flex-col items-center gap-3"
+            onSubmit={fetchRandomTrack}
           >
-            Get Random Track
-          </button>
-        </form>
-      </>
-
-      {error && <p>{error.message}</p>}
-
-      {randTrack ? (
-        <div className="flex flex-col w-72">
-          <img src={randTrack?.album?.images[1]?.url} alt="" />
-          <div className="flex">
-            {randTrack.artists.map((artist) => (
-              <div
-                key={artist.id}
-                className="c-card text-orange-300 opacity-90"
+            <div className="flex bg-slate-800 w-full gap-2 px-12 py-2 rounded-sm">
+              <label className="" htmlFor="genres">
+                Choose genre
+              </label>
+              <select
+                name="genres"
+                id="genres"
+                className="px-2 text-white rounded-md bg-gray-900"
+                onChange={handleGenreChange}
+                value={selectedGenre}
               >
-                <h3>
-                  {artist.name}
-                  <span className="px-2">•</span>
-                </h3>
-              </div>
-            ))}
-          </div>
-          <div className="flex ">
-            {randTrack?.name}
-            <p>
-              <span className="px-2">-</span>
-              {randTrack?.album.release_date}{" "}
-            </p>
+                <option value="">Select Genre</option>
+                {genres.map((genre) => (
+                  <option key={genre} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex bg-slate-800 w-full gap-2 px-12 py-2 rounded-sm">
+              <label htmlFor="popularity">Popularity: {popInput}</label>
+              <input
+                id="popularity"
+                name="popularity"
+                type="range"
+                min="1"
+                max="10"
+                onChange={handlePopularityChange}
+                className="popRange"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="bg-green-500 text-white max-w-max px-4 py-2 rounded-lg ml-2 mt-2"
+            >
+              Get Track
+            </button>
+          </form>
+          {error && <p>{error.message}</p>}
+
+          <div className="mt-4 grid grid-cols-3 gap-4">
+            {playlists.map((playlist) => renderPlaylist(playlist))}
           </div>
         </div>
-      ) : (
-        <div></div>
-      )}
-
-      <div className="mt-4 grid grid-cols-3 gap-4">
-        {playlists.map((playlist) => renderPlaylist(playlist))}
+        <div className=" bg-gray-500 max-h-screen">
+          {randTrack ? (
+            <div className="flex flex-col w-full items-center">
+              <img
+                src={randTrack?.album.images[0]?.url}
+                alt=""
+                className=" object-cover albumImg"
+              />
+              <div className="flex pl-9 mt-5 text-lg w-full">
+                {randTrack.artists.map((artist) => (
+                  <div
+                    key={artist.id}
+                    className="c-card text-orange-300 opacity-90"
+                  >
+                    <h3>
+                      {artist.name}
+                      <span className="px-2">•</span>
+                    </h3>
+                  </div>
+                ))}
+              </div>
+              <div className="flex pl-9 text-2xl w-full">{randTrack?.name}</div>
+              <div className="bg-green-200 text-black px-6 py-2 mt-6 w-35 rounded-sm">
+                <Link to={randTrack.external_urls.spotify}>
+                  Open on Spotify
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
