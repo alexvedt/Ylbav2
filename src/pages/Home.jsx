@@ -1,9 +1,10 @@
 import SpotifyLoginComponent from "../components/login";
+import Navbar from "../components/navbar";
 export default function Home() {
   return (
     <>
-      <p className="bg-red-300">Hellllloooo home</p>
       <SpotifyLoginComponent />
+      <Navbar />
     </>
   );
 }
